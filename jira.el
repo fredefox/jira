@@ -36,7 +36,7 @@
 
 (define-transient-command jira ()
   "Invoke a Jira command from a list of available commands."
-  ["Aviolable commands"
+  ["Available commands"
    [("l" "List" jira-list)
     ("m" "Mine" jira-mine)
     ("v" "View" jira-view)
