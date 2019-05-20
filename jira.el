@@ -10,29 +10,36 @@
 (provide 'jira)
 (require 'transient)
 
-(defun jira-list ()
-  "Insert Jira issues."
-  (interactive)
-  (insert (shell-command-to-string "jira list")))
+(defun jira-list (beg end)
+  "Insert all Jira issues.
 
-(defun jira-mine ()
-  "Insert Jira issues assigned to you."
-  (interactive)
-  (insert (shell-command-to-string "jira mine")))
+Insert it between BEG and END."
+  (interactive "r")
+  (shell-command-on-region beg end "jira list" nil t))
 
-(defun jira-view ()
-  "Prompt for a Jira issue and display details for it."
-  (interactive)
+(defun jira-mine (beg end)
+  "Insert Jira issues assigned.
+
+Insert it between BEG and END."
+  (interactive "r")
+  (shell-command-on-region beg end "jira mine" nil t))
+
+(defun jira-view (beg end)
+  "Prompt for a Jira issue and display details for it.
+
+Insert it between BEG and END."
+  (interactive "r")
   (let ((ticket (read-string "Ticket: ")))
     (insert (shell-command-to-string
              (format "jira view %s" ticket)))))
 
-(defun jira-epic ()
-  "Prompt for a Jira epic and display it's issues."
-  (interactive)
+(defun jira-epic (beg end)
+  "Prompt for a Jira epic and display it's issues.
+
+Insert it between BEG and END."
+  (interactive "r")
   (let ((ticket (read-string "Epic: ")))
-    (insert (shell-command-to-string
-             (format "jira epic list %s" ticket)))))
+  (shell-command-on-region beg end (format "jira epic list %s" ticket) nil t)))
 
 (define-transient-command jira ()
   "Invoke a Jira command from a list of available commands."
