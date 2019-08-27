@@ -39,14 +39,32 @@ Insert it between BEG and END."
 Insert it between BEG and END."
   (interactive "r")
   (let ((ticket (read-string "Epic: ")))
-  (shell-command-on-region beg end (format "jira epic list %s" ticket) nil t)))
+    (shell-command-on-region beg end (format "jira epic list %s" ticket) nil t)))
+
+
+(defun jira-reopen ()
+  "Prompt for a Jira issue and reopens it."
+
+  (interactive)
+  (let ((ticket (read-string "Ticket: ")))
+    (shell-command (format "jira reopen %s" ticket))))
+
+(defun jira-close ()
+  "Prompt for a Jira issue and closes it."
+
+  (interactive)
+  (let ((ticket (read-string "Ticket: ")))
+    (shell-command (format "jira close %s" ticket))))
 
 (define-transient-command jira ()
   "Invoke a Jira command from a list of available commands."
-  ["Available commands"
+  ["Displaying tickets"
    [("l" "List" jira-list)
     ("m" "Mine" jira-mine)
     ("v" "View" jira-view)
-    ("e" "Epic" jira-epic)]])
+    ("e" "Epic" jira-epic)]]
+  ["Modifying tickets"
+   ("o" "Reopen" jira-reopen)
+   ("c" "Close" jira-close)])
 
 ;;; jira.el ends here
